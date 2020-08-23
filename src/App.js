@@ -7,15 +7,18 @@ import Clarifai from 'clarifai';
 const app = new Clarifai.App({
     apiKey: '3350039e51c64bf68ce0bae5a88d911b'
 });
+
+
 class App extends Component {
     constructor() {
         super();
         this.state = {
             input: '',
             imageUrl: '',
-            box: [],
+            boxes: [],
         }
     }
+
     calculateFaceLocation = (data) => {
         const clarifaiFace = data.outputs[0].data.regions.map(region => region.region_info.bounding_box);
         const image = document.getElementById('inputimage');
@@ -32,9 +35,9 @@ class App extends Component {
         });
     }
 
-    displayFaceBox = (box) => {
-        console.log(box)
-        this.setState({ box })
+    displayFaceBox = (boxes) => {
+        console.log(boxes)
+        this.setState({ boxes })
     }
 
     onInputChange = (event) => {
@@ -56,17 +59,17 @@ class App extends Component {
 
     render() {
         return ( 
-            <div >
+        <div>
             <NavBar />
             <DetectInput 
             onInputChange = { this.onInputChange }
             onSubmit = { this.onSubmit }
-            /> 
+            />    
             <FacialRecognition 
             imageUrl = { this.state.imageUrl }
-            box = { this.state.box }
-            /> 
-            </div >
+            boxes = { this.state.boxes }
+            />  
+            </div>
         );
     }
 }
