@@ -1,58 +1,72 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import NavBar from './components/NavBar/NavBar';
 import DetectInput from './components/DetectInput/DetectInput.jsx';
 import FacialRecognition from './components/FacialRecognition/FacialRecognition.jsx';
-import Clarifai, { COLOR_MODEL } from 'clarifai';
+import Clarifai from 'clarifai';
 
 const app = new Clarifai.App({
-  apiKey: '3350039e51c64bf68ce0bae5a88d911b'
- });
+    apiKey: '3350039e51c64bf68ce0bae5a88d911b'
+});
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      input: '',
-      imageUrl: ''
-      }
-  }
-
-  onInputChange = (event) => {
-    console.log(event.target.value);
-    this.setState({input: event.target.value})
-  }
-
-  onSubmit = () => {
-    this.setState({imageUrl: this.state.input});
-
-    app.models
-    .predict(
-      Clarifai.FACE_DETECT_MODEL,
-       this.state.input)
-    .then(
-    function(response) {
-     console.log(response.outputs[0].data.regions[0].region_info.bounding_box)
-    },
-    function(err) {
-    
+    constructor() {
+        super();
+        this.state = {
+            input: '',
+            imageUrl: '',
+            box: {},
+        }
     }
-  );
-  }
-  
-  render() { 
-    return ( 
-      <div>
-      <NavBar />
-      <DetectInput 
-        onInputChange={this.onInputChange} 
-        onSubmit={this.onSubmit}
-      />
-      <FacialRecognition 
-        imageUrl={this.state.imageUrl}
-        />
-      </div>
-     );
-  }
-}
- 
-export default App;
+    calculateFaceLocation = (data) => {
+        const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+        const image = document.getElementById('inputimage');
+        const height = Number(image.height);
+        const width = Number(image.width);
+        console.log(clarifaiFace, width, height)
+        return {
+            leftCol: clarifaiFace.left_col * width,
+            topRow: clarifaiFace.top_row * height,
+            rightCol: width - (clarifaiFace.right_col * width),
+            bottomRow: height - (clarifaiFace.bottom_row * height)
+        }
+    }
 
+    displayFaceBox = (box) => {
+        console.log(box)
+        this.setState({ box })
+    }
+
+    onInputChange = (event) => {
+        console.log(event.target.value);
+        this.setState({ input: event.target.value })
+    }
+
+    onSubmit = () => {
+        this.setState({ imageUrl: this.state.input });
+
+        app.models
+            .predict(
+                Clarifai.FACE_DETECT_MODEL,
+                this.state.input)
+            .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+            .catch(err => console.log(err));
+
+    }
+
+    render() {
+        return ( <
+            div >
+            <
+            NavBar / >
+            <
+            DetectInput onInputChange = { this.onInputChange }
+            onSubmit = { this.onSubmit }
+            /> <
+            FacialRecognition imageUrl = { this.state.imageUrl }
+            box = { this.state.box }
+            /> < /
+            div >
+        );
+    }
+}
+
+export default App;
