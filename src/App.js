@@ -3,6 +3,7 @@ import NavBar from './components/NavBar/NavBar';
 import DetectInput from './components/DetectInput/DetectInput.jsx';
 import FacialRecognition from './components/FacialRecognition/FacialRecognition.jsx';
 import Clarifai from 'clarifai';
+import Particles from 'react-particles-js';
 
 const app = new Clarifai.App({
     apiKey: '3350039e51c64bf68ce0bae5a88d911b'
@@ -69,6 +70,21 @@ class App extends Component {
             imageUrl = { this.state.imageUrl }
             boxes = { this.state.boxes }
             />  
+            <Particles 
+                params={{ 
+                width: 100,
+                height: 100,
+                particles: { 
+                    number: { 
+                    value: 200, 
+                    density: { 
+                        enable: true, 
+                        value_area: 1000, 
+                    } 
+                    }, 
+                }, 
+                }} 
+            /> 
             </div>
         );
     }
