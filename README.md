@@ -1,6 +1,6 @@
-<img src="https://imgur.com/iNoNNDW"/>
+<img src="https://i.imgur.com/iNoNNDW.png"/>
 
-> An online library for programming tutorials. 
+> A facial detection web application.
 
 ## Table of Contents
 - [About](#about)
