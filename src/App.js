@@ -70,21 +70,25 @@ class App extends Component {
             imageUrl = { this.state.imageUrl }
             boxes = { this.state.boxes }
             />  
-            <Particles 
-                params={{ 
-                width: 100,
-                height: 100,
-                particles: { 
-                    number: { 
-                    value: 200, 
-                    density: { 
-                        enable: true, 
-                        value_area: 1000, 
-                    } 
-                    }, 
-                }, 
-                }} 
-            /> 
+           <Particles
+    params={{
+	    "particles": {
+	        "number": {
+	            "value": 50
+	        },
+	        "size": {
+	            "value": 3
+	        }
+	    },
+	    "interactivity": {
+	        "events": {
+	            "onhover": {
+	                "enable": true,
+	                "mode": "repulse"
+	            }
+	        }
+	    }
+	}} />
             </div>
         );
     }
