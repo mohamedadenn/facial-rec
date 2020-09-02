@@ -9,7 +9,24 @@ const app = new Clarifai.App({
     apiKey: '3350039e51c64bf68ce0bae5a88d911b'
 });
 
-
+const particlesOptions = {
+    "particles": {
+        "number": {
+            "value": 50
+        },
+        "size": {
+            "value": 3
+        }
+    },
+    "interactivity": {
+        "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            }
+        }
+    }
+}
 class App extends Component {
     constructor() {
         super();
@@ -70,25 +87,9 @@ class App extends Component {
             imageUrl = { this.state.imageUrl }
             boxes = { this.state.boxes }
             />  
-           <Particles
-    params={{
-	    "particles": {
-	        "number": {
-	            "value": 50
-	        },
-	        "size": {
-	            "value": 3
-	        }
-	    },
-	    "interactivity": {
-	        "events": {
-	            "onhover": {
-	                "enable": true,
-	                "mode": "repulse"
-	            }
-	        }
-	    }
-	}} />
+           <Particles className='particles'
+            params={particlesOptions} 
+            />
             </div>
         );
     }
